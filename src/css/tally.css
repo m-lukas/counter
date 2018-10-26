@@ -1,0 +1,11 @@
+.tallyList{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.tallyList img{
+    height: 20px;
+    margin: 4px;
+}

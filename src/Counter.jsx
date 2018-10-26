@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ActionButton from './components/ActionButton';
 import CounterButton from './components/CounterButton';
 import { actions, modes } from './variables/global';
+import Tally from './components/Tally';
 
 class Counter extends Component {
     constructor(props){
@@ -108,11 +109,13 @@ class Counter extends Component {
     render() {
         return (
             <div>
+                <Tally count={this.state.counter} />
                 <h1>{this.state.counter}</h1>
                 <div className="buttons">
-                    <CounterButton onclick={(value) => this.onCounterClick(value)} value={+1} />
-                    <CounterButton onclick={(value) => this.onCounterClick(value)} value={+3} />
-                    <CounterButton onclick={(value) => this.onCounterClick(value)} value={+10} />
+                    <CounterButton onclick={(value) => this.onCounterClick(value)} value={1} />
+                    <CounterButton onclick={(value) => this.onCounterClick(value)} value={2} />
+                    <CounterButton onclick={(value) => this.onCounterClick(value)} value={3} />
+                    <CounterButton onclick={(value) => this.onCounterClick(value)} value={5} />
                     <ActionButton onclick={(action) => this.onActionClick(action)} action={actions.UNDO} displayValue={actions.UNDO.icon} />
                     <ActionButton onclick={(action) => this.onActionClick(action)} action={actions.MODE} displayValue={this.state.mode.icon} />
                 </div>
