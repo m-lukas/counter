@@ -9,54 +9,38 @@ import '../css/tally.css';
 
 class Tally extends Component {
 
-    round = x => {
-        return Math.ceil(x/5)*5;
+    roundTo5 = x => {
+        return Math.floor(x/5)*5;
     }
 
-    calcRemaining = count => {
-        let rem = this.round(count) - count;
-        console.log("remaining: " + rem);
-        return rem;
+    roundTo1 = x => {
+        return Math.floor(x);
     }
 
-    calcClusterNum = count => {
-        let clusterNum = this.round(count) / 5;
-        console.log(clusterNum);
-        return clusterNum
-    }
+    ////////////////////////
 
-    getRemCluster = count => {
-        switch(count){
-            case 1:
-                console.log("tally 1");
-                return tally_marks_1;
-            case 2:
-                console.log("tally 2");
-                return tally_marks_2;
-            case 3:
-                console.log("tally 3");
-                return tally_marks_3;
-            case 4:
-                console.log("tally 4");
-                return tally_marks_4;
-            default:
-                return "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
+    getCounts = x => {
+        let next5 = this.roundTo5(x);
+        let next1 = this.roundTo1(x);
+        return {
+            "5": next5/5,
+            "1": next1-next5 >= 1 ? next1-next5 : 0,
+            rest: Number(x).toFixed(4) < 1e20 ? ("0." + Number(x).toFixed(4).toString().split("e")[0].split(".")[1]) : "0"
         }
     }
 
     render() {
         const {count} = this.props;
-        const remaining = this.calcRemaining(count);
+        const values = this.getCounts(count);
 
         return (
             <div className="tallyList">
-                {
-                    [...Array(count > 5 ? (this.calcClusterNum(count)-1) : 0)].map((x,i) => {
-                        console.log("map: " + count);
-                        return <img src={tally_marks_5} alt="tally marks" />
-                    })
-                }
-                {remaining > 0 || count === 0  ? <img src={this.getRemCluster(5-remaining)} alt="tally marks" /> : <img src={tally_marks_5} alt="tally marks" />}
+                <h2>{values[5]} x</h2>
+                <img src={tally_marks_5} alt="5"/>
+                <h2>{values[1]} x</h2>
+                <img src={tally_marks_1} alt="5"/>
+                <h1>+</h1>
+                <h2>{values.rest}</h2>   
             </div>
         );
     }
