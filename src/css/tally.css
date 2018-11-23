@@ -1,14 +1,24 @@
 .tallyList{
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tallyList row{
+    display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    align-items: center;
+    margin: 2px 0 2px 0;
+}
+
+.tallyList row h1{
+    line-height: 30px;
+    height: 30px;
+    margin: 0;
 }
 
 .tallyList img{
-    min-height: 20px;
-    max-height: 20px;
-    margin: 4px;
-    margin: 0 10px 0 10px;
+    height: 100%;
+    vertical-align: middle;
+    margin-top: -4px;
+    margin-left: 10px;
 }

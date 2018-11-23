@@ -25,7 +25,23 @@ class Tally extends Component {
         return {
             "5": next5/5,
             "1": next1-next5 >= 1 ? next1-next5 : 0,
-            rest: Number(x).toFixed(4) < 1e20 ? ("0." + Number(x).toFixed(4).toString().split("e")[0].split(".")[1]) : "0"
+            rest: Number(x).toFixed(2) < 1e20 ? ("0." + Number(x).toFixed(2).toString().split("e")[0].split(".")[1]) : "0.00"
+        }
+    }
+
+    getSingleTallies = number => {
+        console.log(number);
+        switch (number) {
+            case 1:
+                return tally_marks_1;
+            case 2:
+                return tally_marks_2;
+            case 3:
+                return tally_marks_3;
+            case 4:
+                return tally_marks_4;
+            default:
+                return "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D";
         }
     }
 
@@ -35,12 +51,21 @@ class Tally extends Component {
 
         return (
             <div className="tallyList">
-                <h2>{values[5]} x</h2>
-                <img src={tally_marks_5} alt="5"/>
-                <h2>{values[1]} x</h2>
-                <img src={tally_marks_1} alt="5"/>
-                <h1>+</h1>
-                <h2>{values.rest}</h2>   
+                <row>
+                    <h1>
+                        {`${values[5]} x`}
+                        <img src={tally_marks_5} alt="5" align="middle"/>
+                    </h1>
+                </row>
+                <row>
+                    <h1>
+                        +
+                        {values[1] > 0 ? <img src={this.getSingleTallies(values[1])} alt="1" align="middle"/> : ' 0'}
+                    </h1>
+                </row>
+                <row>
+                    <h1>+ {values.rest}</h1>
+                </row>
             </div>
         );
     }
