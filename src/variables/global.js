@@ -28,3 +28,7 @@ export const modes = {
         icon: '/'
     }
 }
+
+export const config = {
+    COUNTERLIMIT: 99999999999,
+}

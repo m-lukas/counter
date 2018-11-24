@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ActionButton from './components/ActionButton';
 import CounterButton from './components/CounterButton';
-import { actions, modes } from './variables/global';
+import { actions, modes, config } from './variables/global';
 import Tally from './components/Tally';
+import './css/counter.css';
 
 class Counter extends Component {
     constructor(props){
@@ -27,30 +28,38 @@ class Counter extends Component {
     }
 
     onCounterClick = (value) => {
-        let currentMode = this.state.mode;
-        switch(currentMode){
+        let {mode,counter} = this.state;
+        switch(mode){
             case modes.ADDITION:
-                this.setState({
-                    ...this.state,
-                    counter: this.state.counter+value,
-                })
+                if(counter+value < config.COUNTERLIMIT){
+                    this.setState({
+                        ...this.state,
+                        counter: counter+value,
+                    })
+                }else{
+                    console.log("Counter limit reached!");
+                }
                 break;
             case modes.SUBSTRACTION:
                 this.setState({
                     ...this.state,
-                    counter: this.state.counter-value,
+                    counter: counter-value,
                 })
                 break;
             case modes.MULTIPLICATION:
-                this.setState({
-                    ...this.state,
-                    counter: this.state.counter*value,
-                })
+                if(counter*value < config.COUNTERLIMIT){
+                    this.setState({
+                        ...this.state,
+                        counter: counter*value,
+                    })
+                }else{
+                    console.log("Counter limit reached!")
+                }
                 break;
             case modes.DIVISION:
                 this.setState({
                     ...this.state,
-                    counter: this.state.counter/value,
+                    counter: counter/value,
                 })
                 break;
             default:
@@ -109,8 +118,10 @@ class Counter extends Component {
     render() {
         return (
             <div>
-                <Tally count={this.state.counter} />
-                <h1>{this.state.counter}</h1>
+                <div className="tallyWrapper">
+                    <Tally count={this.state.counter} />
+                </div>
+                <h1 className='counterValue'>{this.state.counter}</h1>
                 <div className="buttons">
                     <CounterButton onclick={(value) => this.onCounterClick(value)} value={1} />
                     <CounterButton onclick={(value) => this.onCounterClick(value)} value={2} />
