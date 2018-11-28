@@ -11,9 +11,16 @@ class History extends Component {
 
 
     render() {
+        const {history} = this.props;
+        if(!history){
+            return;
+        }
+
         return (
             <div>
-                
+               {history.map((item, index) => {
+                   return <li>{`${item.mode.icon}|${item.origin}|${item.value}`}</li>
+               })}  
             </div>
         );
     }

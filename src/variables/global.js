@@ -30,5 +30,5 @@ export const modes = {
 }
 
 export const config = {
-    COUNTERLIMIT: 99999999999,
+    COUNTERLIMIT: [-9999999999,99999999999],
 }

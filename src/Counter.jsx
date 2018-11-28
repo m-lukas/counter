@@ -4,6 +4,7 @@ import CounterButton from './components/CounterButton';
 import { actions, modes, config } from './variables/global';
 import Tally from './components/Tally';
 import './css/counter.css';
+import History from './components/History';
 
 class Counter extends Component {
     constructor(props){
@@ -12,6 +13,7 @@ class Counter extends Component {
         this.state = {
             counter: 0,
             mode: modes.ADDITION,
+            history: []
         }
     }
 
@@ -20,7 +22,7 @@ class Counter extends Component {
             case actions.MODE:
                 this.switchMode();
                 break;
-            case actions.UNDOw:
+            case actions.UNDO:
                 break;
             default:
                 break;    
@@ -31,40 +33,53 @@ class Counter extends Component {
         let {mode,counter} = this.state;
         switch(mode){
             case modes.ADDITION:
-                if(counter+value < config.COUNTERLIMIT){
+                if(counter+value > config.COUNTERLIMIT[0] && counter+value < config.COUNTERLIMIT[1]){
                     this.setState({
                         ...this.state,
                         counter: counter+value,
+                        history: this.state.history.concat([{mode: modes.ADDITION, origin: counter, value: value, result: counter+value}]),
                     })
                 }else{
-                    console.log("Counter limit reached!");
+                   //Counter limit reached
                 }
                 break;
             case modes.SUBSTRACTION:
-                this.setState({
-                    ...this.state,
-                    counter: counter-value,
-                })
+                if(counter-value > config.COUNTERLIMIT[0] && counter-value < config.COUNTERLIMIT[1]){
+                    this.setState({
+                        ...this.state,
+                        counter: counter-value,
+                        history: this.state.history.concat([{mode: modes.SUBSTRACTION, origin: counter, value: value, result: counter-value}]),
+                    })
+                }else{
+                    //Counter limit reached
+                }
                 break;
             case modes.MULTIPLICATION:
-                if(counter*value < config.COUNTERLIMIT){
+                if(counter*value > config.COUNTERLIMIT[0] && counter*value < config.COUNTERLIMIT[1]){
                     this.setState({
                         ...this.state,
                         counter: counter*value,
+                        history: this.state.history.concat([{mode: modes.MULTIPLICATION, origin: counter, value: value, result: counter*value}]),
                     })
                 }else{
-                    console.log("Counter limit reached!")
+                    //Counter limit reached
                 }
                 break;
             case modes.DIVISION:
-                this.setState({
-                    ...this.state,
-                    counter: counter/value,
-                })
+                if(counter/value > config.COUNTERLIMIT[0] && counter/value < config.COUNTERLIMIT[1]){
+                    this.setState({
+                        ...this.state,
+                        counter: counter/value,
+                        history: this.state.history.concat([{mode: modes.DIVISION, origin: counter, value: value, result: counter/value}]),
+                    })
+                }else{
+                    //Counter limit reached
+                }
                 break;
             default:
                 break;
         }
+        console.log(this.state.history)
     }
     
     switchMode = () => {
@@ -130,7 +145,9 @@ class Counter extends Component {
                     <ActionButton onclick={(action) => this.onActionClick(action)} action={actions.UNDO} displayValue={actions.UNDO.icon} />
                     <ActionButton onclick={(action) => this.onActionClick(action)} action={actions.MODE} displayValue={this.state.mode.icon} />
                 </div>
-                
+                <div className="historyWrapper">
+                    <History history={this.state.history} />
+                </div>
             </div>
         );
     }
