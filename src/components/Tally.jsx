@@ -30,7 +30,6 @@ class Tally extends Component {
     }
 
     getSingleTallies = number => {
-        console.log(number);
         switch (number) {
             case 1:
                 return tally_marks_1;

@@ -1,18 +1,51 @@
+.counter{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .tallyWrapper{
     width: 100%;
-    height: 35vh;
+    height: 30vh;
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    margin-bottom:  15px;
 }
 
 .counterValue{
     text-align: center;
     font-size: 50px;
+    margin-bottom: 30px;
 }
 
 .buttons{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    justify-content: space-around;
+    width: 300px;  
+}
+
+.buttons button{
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    transition: all .2s ease-in-out;
+}
+
+.buttons button:hover{
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+.buttons button:active{
+    transform: scale(0.95);  
+}
+
+.actions{
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
 }

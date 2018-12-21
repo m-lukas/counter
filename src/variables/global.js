@@ -12,20 +12,24 @@ export const actions = {
 export const modes = {
     ADDITION: {
         type: 'ADDITION',
-        icon: '+'
+        icon: '+',
+        operator: '+'
     },
     SUBSTRACTION: 
     {
         type: 'SUBSTRACTION',
-        icon: '-'
+        icon: '-',
+        operator: '-'
     },
     MULTIPLICATION: {
         type: 'MULTIPLICATION',
-        icon: 'x'
+        icon: 'x',
+        operator: '*'
     },
     DIVISION: {
         type: 'DIVISION',
-        icon: '/'
+        icon: '/',
+        operator: '/'
     }
 }
 

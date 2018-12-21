@@ -23,6 +23,7 @@ class Counter extends Component {
                 this.switchMode();
                 break;
             case actions.UNDO:
+                this.undo();
                 break;
             default:
                 break;    
@@ -31,55 +32,29 @@ class Counter extends Component {
 
     onCounterClick = (value) => {
         let {mode,counter} = this.state;
-        switch(mode){
-            case modes.ADDITION:
-                if(counter+value > config.COUNTERLIMIT[0] && counter+value < config.COUNTERLIMIT[1]){
-                    this.setState({
-                        ...this.state,
-                        counter: counter+value,
-                        history: this.state.history.concat([{mode: modes.ADDITION, origin: counter, value: value, result: counter+value}]),
-                    })
-                }else{
-                   //Counter limit reached
-                }
-                break;
-            case modes.SUBSTRACTION:
-                if(counter-value > config.COUNTERLIMIT[0] && counter-value < config.COUNTERLIMIT[1]){
-                    this.setState({
-                        ...this.state,
-                        counter: counter-value,
-                        history: this.state.history.concat([{mode: modes.SUBSTRACTION, origin: counter, value: value, result: counter-value}]),
-                    })
-                }else{
-                    //Counter limit reached
-                }
-                break;
-            case modes.MULTIPLICATION:
-                if(counter*value > config.COUNTERLIMIT[0] && counter*value < config.COUNTERLIMIT[1]){
-                    this.setState({
-                        ...this.state,
-                        counter: counter*value,
-                        history: this.state.history.concat([{mode: modes.MULTIPLICATION, origin: counter, value: value, result: counter*value}]),
-                    })
-                }else{
-                    //Counter limit reached
-                }
-                break;
-            case modes.DIVISION:
-                if(counter/value > config.COUNTERLIMIT[0] && counter/value < config.COUNTERLIMIT[1]){
-                    this.setState({
-                        ...this.state,
-                        counter: counter/value,
-                        history: this.state.history.concat([{mode: modes.DIVISION, origin: counter, value: value, result: counter/value}]),
-                    })
-                }else{
-                    //Counter limit reached
-                }
-                break;
-            default:
-                break;
+        let result = eval(counter.toString() + mode.operator + value.toString());
+
+        if(result > config.COUNTERLIMIT[0] && result < config.COUNTERLIMIT[1]){
+            this.setState({
+                ...this.state,
+                counter: result,
+                history: this.state.history.concat([{mode: mode, origin: counter, value: value, result: result, time: new Date().getTime()}]),
+            })
+        }else{
+           //Counter limit reached
         }
-        console.log(this.state.history)
+    }
+
+    undo = () => {
+        let {history} = this.state;
+        let historyCopy = history;
+        let {origin} = history.length > 0 ? historyCopy.pop() : {origin: 0};
+
+        this.setState({
+            ...this.state,
+            counter: origin,
+            history: historyCopy
+        })
     }
     
     switchMode = () => {
@@ -132,7 +107,7 @@ class Counter extends Component {
 
     render() {
         return (
-            <div>
+            <div className="counter">
                 <div className="tallyWrapper">
                     <Tally count={this.state.counter} />
                 </div>
@@ -142,8 +117,10 @@ class Counter extends Component {
                     <CounterButton onclick={(value) => this.onCounterClick(value)} value={2} />
                     <CounterButton onclick={(value) => this.onCounterClick(value)} value={3} />
                     <CounterButton onclick={(value) => this.onCounterClick(value)} value={5} />
-                    <ActionButton onclick={(action) => this.onActionClick(action)} action={actions.UNDO} displayValue={actions.UNDO.icon} />
-                    <ActionButton onclick={(action) => this.onActionClick(action)} action={actions.MODE} displayValue={this.state.mode.icon} />
+                    <div className="actions">
+                        <ActionButton onclick={(action) => this.onActionClick(action)} action={actions.UNDO} displayValue={actions.UNDO.icon} />
+                        <ActionButton onclick={(action) => this.onActionClick(action)} action={actions.MODE} displayValue={this.state.mode.icon} />
+                    </div>
                 </div>
                 <div className="historyWrapper">
                     <History history={this.state.history} />
