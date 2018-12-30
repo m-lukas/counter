@@ -2,6 +2,20 @@ import React, { Component } from 'react'
 
 class HistoryCard extends Component {
 
+    fixNumber = (num) => {
+        let numStr = num.toString();
+        if(numStr.match("[-+]?[0-9]*?[0-9]+([eE][-+]?[0-9]+)")){
+            num = Number(num).toExponential(5);
+        }else 
+        if(numStr.split(".")[1]){
+            console.log(numStr);
+            if(numStr.split(".")[1].length > 5){
+                num = Number(num).toFixed(5);
+            }
+        }
+        return num;
+    }
+
     getTimeStr = (timeDif) => {
         let timeStr = "0:000s";
         let sec = Math.floor(timeDif/1000);
@@ -27,7 +41,7 @@ class HistoryCard extends Component {
                     <h1>{value}</h1>
                 </div>
                 <div className="rightside">
-                    <h2>{result}</h2>
+                    <h2>{this.fixNumber(result)}</h2>
                     <p>{this.getTimeStr(time)}</p>
                 </div>
             </div>

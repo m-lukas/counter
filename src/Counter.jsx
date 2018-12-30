@@ -111,7 +111,9 @@ class Counter extends Component {
                 <div className="tallyWrapper">
                     <Tally count={this.state.counter} />
                 </div>
-                <h1 className='counterValue'>{this.state.counter}</h1>
+                <div className='counterWrapper'>
+                    <h1 className='counterValue'>{this.state.counter}</h1>
+                </div>
                 <div className="buttons">
                     <CounterButton onclick={(value) => this.onCounterClick(value)} value={1} />
                     <CounterButton onclick={(value) => this.onCounterClick(value)} value={2} />

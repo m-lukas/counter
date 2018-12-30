@@ -20,6 +20,12 @@
     margin-bottom: 30px;
 }
 
+@media screen and (max-width: 720px){
+    .counterValue{
+        font-size: 6vw;
+    }
+}
+
 .buttons{
     display: flex;
     flex-direction: row;
